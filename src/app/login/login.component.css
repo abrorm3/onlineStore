@@ -1,0 +1,21 @@
+.container{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .login-square{
+    border: 1px solid grey;
+    border-radius: 8px;
+    padding: 20px 50px 60px;
+  }
+  h3{
+    margin-bottom: 90px;
+  }
+  .submit-btn {
+    margin-top: 10px;
+  }
+}
+.mat-mdc-unelevated-button, .mat-mdc-unelevated-button .mdc-button__ripple{
+  border-radius:5px;
+}
