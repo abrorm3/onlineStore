@@ -1,0 +1,29 @@
+<div class="container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="login-square">
+      <h3>Online store</h3>
+      <mat-form-field>
+        <mat-label>Authentication key</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="authKey"
+        />
+        <mat-error *ngIf="loginForm.get('authKey')?.hasError('required')">
+          Field is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <div class="submit-btn">
+        <button
+          mat-flat-button
+          class="full-width"
+          type="submit"
+          [disabled]="loginForm.invalid"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
