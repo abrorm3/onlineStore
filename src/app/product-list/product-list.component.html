@@ -1,16 +1,107 @@
-<div>
-  @for(product of productList(); track product.id){
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>{{ product.name }}</mat-card-title>
-        <mat-card-subtitle>{{ product.cost }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        {{ product.description }}
-      </mat-card-content>
-      <mat-card-actions>
-<!--        <button mat-button (click)="addToCart(product)">Add to cart</button>-->
-      </mat-card-actions>
-    </mat-card>
+<table
+  mat-table
+  [dataSource]="productList()"
+  multiTemplateDataRows
+  class="mat-elevation-z8"
+>
+  @for (column of columnsToDisplay; track column) {
+    <ng-container matColumnDef="{{ column }}">
+      <th mat-header-cell *matHeaderCellDef> {{ column }}</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element[column] }}
+      </td>
+    </ng-container>
   }
-</div>
+
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions"></th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        aria-label="expand row"
+        (click)="(expandedElement.set(
+          expandedElement() === element ? null : element
+        )); $event.stopPropagation()"
+      >
+        @if (expandedElement() === element) {
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        } @else {
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        }
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td
+      mat-cell
+      *matCellDef="let element"
+      [attr.colspan]="columnsToDisplayWithExpand.length"
+    >
+      <div
+        class="my-element-detail"
+        [@detailExpand]="element === expandedElement() ? 'expanded' : 'collapsed'"
+      >
+        <ng-container *ngIf="editingId() === element.id; else readMode">
+          <div>
+            <label>ID:</label>
+            <input type="text" [(ngModel)]="element.id" disabled />
+          </div>
+          <div>
+            <label>SKU:</label>
+            <input type="text" [(ngModel)]="element.sku" />
+          </div>
+          <div>
+            <label>Name:</label>
+            <input type="text" [(ngModel)]="element.name" />
+          </div>
+          <div>
+            <label>Cost:</label>
+            <input type="number" step="0.01" [(ngModel)]="element.cost" />
+          </div>
+          <div>
+            <label>Description:</label>
+            <textarea [(ngModel)]="element.description"></textarea>
+          </div>
+          <div class="my-element-actions">
+            <button (click)="saveEdit(element)">Save</button>
+            <button (click)="cancelEdit()">Cancel</button>
+          </div>
+        </ng-container>
+
+        <ng-template #readMode>
+          <div class="my-element-diagram">
+            <div class="my-element-position">{{ element.id }}</div>
+            <div class="my-element-symbol">{{ element.sku }}</div>
+            <div class="my-element-name">{{ element.name }}</div>
+            <div class="my-element-weight">{{ element.cost }}</div>
+          </div>
+          <div class="my-element-description">
+            {{ element.description }}
+            <span class="my-element-description-attribution">-- Wikipedia</span>
+          </div>
+          <div class="my-element-actions">
+            <button (click)="startEditing(element)">Edit</button>
+            <button>Delete</button>
+          </div>
+        </ng-template>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr
+    mat-row
+    *matRowDef="let element; columns: columnsToDisplayWithExpand"
+    class="my-element-row"
+    [class.my-expanded-row]="expandedElement() === element"
+    (click)="expandedElement.set(
+      expandedElement() === element ? null : element
+    )"
+  ></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: ['expandedDetail']"
+    class="my-detail-row"
+  ></tr>
+</table>
