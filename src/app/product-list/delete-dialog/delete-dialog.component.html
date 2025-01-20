@@ -1,0 +1,12 @@
+<mat-dialog-content class="mat-typography dialog-content">
+  <h3 class="dialog-title">Confirmation</h3>
+  <p class="dialog-text">
+    Do you really want to delete this item? This action cannot be undone.
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button mat-dialog-close class="cancel-button">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" class="delete-button" cdkFocusInitial>
+    Delete
+  </button>
+</mat-dialog-actions>

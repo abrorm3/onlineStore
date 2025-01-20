@@ -1,0 +1,32 @@
+<div class="editor-container">
+  <div class="field">
+    <label for="type-select">Type:</label>
+    <select id="type-select" [(ngModel)]="value().type" (change)="onChange()">
+      <option *ngFor="let option of options" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+  </div>
+
+  <div class="field">
+    <mat-checkbox
+      class="example-margin"
+      [(ngModel)]="value().available"
+      [labelPosition]="'before'"
+      (change)="onChange()"
+    >
+      Available
+    </mat-checkbox>
+  </div>
+
+  <div class="field">
+    <label for="backlog">Backlog:</label>
+    <input
+      id="backlog"
+      type="number"
+      [ngModel]="value().backlog || ''"
+      min="0"
+    />
+  </div>
+
+</div>

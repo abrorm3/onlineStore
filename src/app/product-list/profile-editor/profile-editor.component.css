@@ -1,0 +1,24 @@
+.editor-container {
+  width:180px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+
+  input{
+    width:75px;
+  }
+}
+
+label {
+  font-weight: bold;
+  min-width: 75px;
+}
