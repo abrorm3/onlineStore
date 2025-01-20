@@ -3,6 +3,8 @@
   border: 2px solid grey;
   border-radius: 8px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 table {

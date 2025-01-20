@@ -18,6 +18,8 @@ import {MatCheckbox} from '@angular/material/checkbox';
 import {ProfileEditorComponent} from './profile-editor/profile-editor.component';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
+import {InsertItemDialogComponent} from './insert-item-dialog/insert-item-dialog.component';
+import {SharedService} from '../shared/shared.service';
 
 @Component({
   selector: 'app-product-list',
@@ -48,8 +50,8 @@ export class ProductListComponent {
   tempEdit: Partial<Product> = {};
 
 
-  constructor(private authService: AuthService, private dialog: MatDialog) {
-    this.authService.fetchProducts().subscribe((data: Product[]) => {
+  constructor(private authService: AuthService, private dialog: MatDialog, private sharedService:SharedService) {
+    this.sharedService.fetchProducts().subscribe((data: Product[]) => {
       this.productList.set(data)
 
     })
@@ -65,7 +67,7 @@ export class ProductListComponent {
     this.editingId.set(null);
     this.tempEdit = {};
 
-    this.authService.updateItem(element).subscribe({
+    this.sharedService.updateItem(element).subscribe({
       next: (updatedProduct) => {
         console.log('Product updated successfully:', updatedProduct);
       },
@@ -103,7 +105,7 @@ export class ProductListComponent {
   }
 
   deleteItem(element: Product) {
-    this.authService.deleteItem(element).subscribe({
+    this.sharedService.deleteItem(element).subscribe({
       next: () => {
         console.log('Product deleted successfully:', element);
         this.productList.set(
@@ -119,4 +121,28 @@ export class ProductListComponent {
   onProfileChange($event: Profile) {
     this.tempEdit.profile = $event;
   }
+
+  openAddItemDialog() {
+    const dialogRef = this.dialog.open(InsertItemDialogComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result: Partial<Product>) => {
+      if (result) {
+        this.addItem(result);
+      }
+    });
+  }
+  addItem(item: Partial<Product>) {
+    this.sharedService.addItem(item).subscribe({
+      next: (newItem) => {
+        console.log('Item added successfully:', newItem);
+        this.productList.update((products) => [newItem,...products]);
+      },
+      error: (err) => {
+        console.error('Error adding item:', err);
+      },
+    });
+  }
+
 }
