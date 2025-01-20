@@ -4,13 +4,14 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Product, TokenType} from '../../shared/types';
 import {Router} from '@angular/router';
 import {SharedService} from '../../shared/shared.service';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  url = 'http://rest-items.research.cloudonix.io';
+  private url = environment.apiUrl;
   private tokenSubject = new BehaviorSubject<TokenType | null>(this.getToken());
 
   constructor(private http: HttpClient, private router: Router, private sharedService:SharedService) {
