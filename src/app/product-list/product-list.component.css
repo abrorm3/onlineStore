@@ -1,3 +1,10 @@
+.container{
+  margin: 30px 20px;
+  border: 2px solid grey;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
 table {
   width: 100%;
 }
@@ -8,6 +15,7 @@ table {
 
 .my-element-row:not(.my-expanded-row):hover {
   background: whitesmoke;
+  border-radius: 8px;
 }
 
 .my-element-row:not(.my-expanded-row):active {

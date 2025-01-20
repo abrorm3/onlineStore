@@ -2,6 +2,7 @@ import {Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Product, tokenType} from '../../shared/types';
+import {Router} from '@angular/router';
 
 
 @Injectable({
@@ -9,22 +10,29 @@ import {Product, tokenType} from '../../shared/types';
 })
 export class AuthService {
   url = 'http://rest-items.research.cloudonix.io';
+  private tokenSubject = new BehaviorSubject<tokenType | null>(this.getToken());
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   setToken(token: tokenType) {
     if (!token) return;
     localStorage.setItem('auth_token', token.toString());
+    this.tokenSubject.next(token);
     this.fetchProducts();
   }
 
   getToken(): tokenType {
     return localStorage.getItem('auth_token');
   }
+  tokenChanges(): Observable<tokenType | null> {
+    return this.tokenSubject.asObservable();
+  }
 
   logout(): void {
     localStorage.removeItem('auth_token');
+    this.tokenSubject.next(null);
+    this.router.navigate(['login']);
   }
 
   fetchProducts(): Observable<Product[]> {
