@@ -19,34 +19,47 @@ table {
 }
 
 .my-element-detail {
+  height: 130px;
   overflow: hidden;
   display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .first-half, .second-half{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-right: 2rem;
+
+    div{
+      display: flex;
+      gap: 4px;
+    input, textarea{
+      min-width: 15rem;
+    }
+    }
+
+  }
 }
 
 .my-element-diagram {
-  width: 100%;
-  border: 2px solid black;
+  width: 80%;
   padding: 8px;
   font-weight: lighter;
   margin: 8px 0;
-  height: 104px;
+  height: 100%;
 }
 
-.my-element-symbol {
+.my-element-sku {
   font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
 }
 
 .my-element-actions {
-  padding: 16px;
-}
-
-.my-element-description {
-  padding: 8px;
-  line-height: 1.4em;
-}
-
-.my-element-description-attribution {
-  opacity: 0.5;
+  height: 100%;
+  display: flex;
+  align-items: end;
+  margin-bottom: 0.5rem;
+  padding: 10px;
 }

@@ -30,4 +30,13 @@ export class AuthService {
   fetchProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.url}/items`);
   }
+  updateItem(item: Product){
+    const updateUrl = `${this.url}/items/${item.id}`;
+    return this.http.patch<Product[]>(updateUrl, {
+      name: item.name,
+      description: item.description,
+      cost: item.cost,
+      profile: item.profile
+    });
+  }
 }

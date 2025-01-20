@@ -43,46 +43,56 @@
         [@detailExpand]="element === expandedElement() ? 'expanded' : 'collapsed'"
       >
         <ng-container *ngIf="editingId() === element.id; else readMode">
-          <div>
-            <label>ID:</label>
-            <input type="text" [(ngModel)]="element.id" disabled />
+          <div class="first-half">
+            <div>
+              <label>Name:</label>
+              <input
+                type="text"
+                [ngModel]="tempEdit.name"
+                (input)="onInputChange($event, 'name')"
+                placeholder="Enter name"
+              />
+            </div>
+            <div>
+              <label>Description:</label>
+              <textarea
+                [ngModel]="tempEdit.description"
+                (input)="onInputChange($event, 'description')"
+                placeholder="Enter description"
+              ></textarea>
+            </div>
+            <div>
+              <label>Cost:</label>
+              <input
+                type="number"
+                step="0.01"
+                [ngModel]="tempEdit.cost"
+                (input)="onInputChange($event, 'name')"
+                placeholder="Enter cost"
+              />
+            </div>
           </div>
-          <div>
-            <label>SKU:</label>
-            <input type="text" [(ngModel)]="element.sku" />
-          </div>
-          <div>
-            <label>Name:</label>
-            <input type="text" [(ngModel)]="element.name" />
-          </div>
-          <div>
-            <label>Cost:</label>
-            <input type="number" step="0.01" [(ngModel)]="element.cost" />
-          </div>
-          <div>
-            <label>Description:</label>
-            <textarea [(ngModel)]="element.description"></textarea>
-          </div>
-          <div class="my-element-actions">
-            <button (click)="saveEdit(element)">Save</button>
-            <button (click)="cancelEdit()">Cancel</button>
-          </div>
+            <app-profile-editor [value]="element.profile" (valueChange)="onProfileChange($event)"></app-profile-editor>
+            <div class="my-element-actions">
+              <button mat-button (click)="saveEdit(element)">Save</button>
+              <button mat-button (click)="cancelEdit()">Cancel</button>
+            </div>
         </ng-container>
+
 
         <ng-template #readMode>
           <div class="my-element-diagram">
-            <div class="my-element-position">{{ element.id }}</div>
-            <div class="my-element-symbol">{{ element.sku }}</div>
-            <div class="my-element-name">{{ element.name }}</div>
-            <div class="my-element-weight">{{ element.cost }}</div>
-          </div>
-          <div class="my-element-description">
-            {{ element.description }}
-            <span class="my-element-description-attribution">-- Wikipedia</span>
+            <div class="my-element-sku">SKU: {{ element.sku }}</div>
+            <div class="my-element-name">Name: {{ element.name }}</div>
+            <div class="my-element-description">Description: {{ element.description }}</div>
+            <div class="my-element-cost">Cost: {{ element.cost }}</div>
+            <div class="my-element-cost">Profile type: {{ element.profile.type }}</div>
+            <div class="my-element-cost">Available: {{ !!element.profile.available}}</div>
+
           </div>
           <div class="my-element-actions">
-            <button (click)="startEditing(element)">Edit</button>
-            <button>Delete</button>
+            <button mat-button (click)="startEditing(element)">Edit</button>
+            <button mat-button (click)="saveEdit(element)">Delete</button>
           </div>
         </ng-template>
       </div>
