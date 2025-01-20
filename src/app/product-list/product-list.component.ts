@@ -62,14 +62,11 @@ export class ProductListComponent {
     this.tempEdit = {...element};
   }
 
-// Optionally, handle saving or cancelling:
   saveEdit(element: Product) {
     Object.assign(element, this.tempEdit);
-    console.log('Saving changes for', element);
     this.editingId.set(null);
     this.tempEdit = {};
 
-    // Call API to persist the updated info
     this.authService.updateItem(element).subscribe({
       next: (updatedProduct) => {
         console.log('Product updated successfully:', updatedProduct);
@@ -78,7 +75,6 @@ export class ProductListComponent {
         console.error('Error updating product:', err);
       },
     });
-    // Once saved, exit edit mode
     this.editingId.set(null);
   }
 
@@ -98,7 +94,21 @@ export class ProductListComponent {
     this.editingId.set(null);
   }
 
-  onProfileChange($event: Profile) {
+  deleteItem(element: Product){
+    this.authService.deleteItem(element).subscribe({
+      next: () => {
+        console.log('Product deleted successfully:', element);
+        this.productList.set(
+          this.productList().filter((p)=>p.id !== element.id)
+        )
+      },
+      error: (err) => {
+        console.error('Error deleting product:', err);
+      },
+    });
+  }
 
+  onProfileChange($event: Profile) {
+    this.tempEdit.profile = $event;
   }
 }

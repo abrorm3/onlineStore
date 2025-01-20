@@ -39,4 +39,8 @@ export class AuthService {
       profile: item.profile
     });
   }
+
+  deleteItem(element: Product) {
+    return this.http.delete(`${this.url}/items/${element.id}`)
+  }
 }
