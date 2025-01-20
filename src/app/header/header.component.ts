@@ -1,6 +1,6 @@
 import {Component, effect, inject, OnInit, signal} from '@angular/core';
 import {MatButton} from '@angular/material/button';
-import {tokenType} from '../shared/types';
+import {TokenType} from '../shared/types';
 import {AuthService} from '../login/auth/auth.service';
 
 @Component({
@@ -12,7 +12,7 @@ import {AuthService} from '../login/auth/auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  authKey = signal<tokenType>(null)
+  authKey = signal<TokenType>(null)
   authService = inject(AuthService)
 
   ngOnInit() {

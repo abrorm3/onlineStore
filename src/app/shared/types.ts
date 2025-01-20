@@ -1,4 +1,4 @@
-export type tokenType = string | number | null;
+export type TokenType = string | number | null;
 
 export interface Profile {
   type?: 'furniture' | 'equipment' | 'stationary' | 'part' | string;

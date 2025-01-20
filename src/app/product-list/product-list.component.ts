@@ -49,11 +49,7 @@ export class ProductListComponent {
 
 
   constructor(private authService: AuthService, private dialog: MatDialog) {
-    effect(() => {
-      console.log(this.expandedElement())
-    });
     this.authService.fetchProducts().subscribe((data: Product[]) => {
-      console.log(data)
       this.productList.set(data)
 
     })
