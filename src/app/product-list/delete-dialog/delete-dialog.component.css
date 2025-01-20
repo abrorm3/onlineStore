@@ -1,0 +1,43 @@
+.dialog-content {
+  text-align: center;
+  padding: 1rem;
+}
+
+.dialog-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.dialog-text {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.cancel-button {
+  color: #555;
+  border: 1px solid #ddd;
+  background: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+}
+
+.cancel-button:hover {
+  background: #f9f9f9;
+}
+
+.delete-button {
+  color: #fff;
+  background: #e53935;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+}
+
+.delete-button:hover {
+  background: #d32f2f;
+}

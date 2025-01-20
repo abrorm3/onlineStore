@@ -16,6 +16,8 @@ import {AuthService} from '../login/auth/auth.service';
 import {Product, Profile} from '../shared/types';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {ProfileEditorComponent} from './profile-editor/profile-editor.component';
+import {MatDialog} from '@angular/material/dialog';
+import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-product-list',
@@ -46,7 +48,7 @@ export class ProductListComponent {
   tempEdit: Partial<Product> = {};
 
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private dialog: MatDialog) {
     effect(() => {
       console.log(this.expandedElement())
     });
@@ -94,12 +96,22 @@ export class ProductListComponent {
     this.editingId.set(null);
   }
 
-  deleteItem(element: Product){
+  openDeleteDialog(element: Product) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteItem(element);
+      }
+    });
+  }
+
+  deleteItem(element: Product) {
     this.authService.deleteItem(element).subscribe({
       next: () => {
         console.log('Product deleted successfully:', element);
         this.productList.set(
-          this.productList().filter((p)=>p.id !== element.id)
+          this.productList().filter((p) => p.id !== element.id)
         )
       },
       error: (err) => {
