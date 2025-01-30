@@ -20,6 +20,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {InsertItemDialogComponent} from './insert-item-dialog/insert-item-dialog.component';
 import {SharedService} from '../shared/shared.service';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-product-list',
@@ -29,7 +30,8 @@ import {SharedService} from '../shared/shared.service';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    ProfileEditorComponent
+    ProfileEditorComponent,
+    MatProgressSpinner
   ],
   templateUrl: './product-list.component.html',
   animations: [
@@ -47,14 +49,18 @@ export class ProductListComponent {
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement = signal<Product | null>(null);
   editingId = signal<number | null>(null);
+  isLoading = signal<boolean>(false);
   tempEdit: Partial<Product> = {};
 
 
-  constructor(private authService: AuthService, private dialog: MatDialog, private sharedService:SharedService) {
+  constructor(private dialog: MatDialog, private sharedService: SharedService) {
     this.sharedService.fetchProducts().subscribe((data: Product[]) => {
       this.productList.set(data)
-
     })
+    effect(() => {
+      this.isLoading.set(this.sharedService.isLoading())
+    });
+
   }
 
   startEditing(element: Product) {
@@ -133,11 +139,12 @@ export class ProductListComponent {
       }
     });
   }
+
   addItem(item: Partial<Product>) {
     this.sharedService.addItem(item).subscribe({
       next: (newItem) => {
         console.log('Item added successfully:', newItem);
-        this.productList.update((products) => [newItem,...products]);
+        this.productList.update((products) => [newItem, ...products]);
       },
       error: (err) => {
         console.error('Error adding item:', err);

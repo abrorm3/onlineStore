@@ -1,8 +1,8 @@
-@if(authKey()){
+@if (authKey()) {
   <div class="container">
     <h3>Online Store</h3>
     <div class="right-side">
-      <p>Authentication: <span class="key">{{authKey()}}</span></p>
+      <p>Authentication: <span class="key" [title]="authKey()">{{ authKey() }}</span></p>
       <button mat-raised-button (click)="logout()">Logout</button>
     </div>
   </div>
