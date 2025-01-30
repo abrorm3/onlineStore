@@ -6,6 +6,9 @@
   display: flex;
   flex-direction: column;
 }
+.add-btn{
+  border-radius: 0 !important;
+}
 
 .table-container {
   height: 88vh;
