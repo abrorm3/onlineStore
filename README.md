@@ -1,7 +1,3 @@
-## You might be needed to insert URL inside service yourself since it is inside env file which is hidden in github!
-# OnlineStore
-
-
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.1.
 
 ## Development server
