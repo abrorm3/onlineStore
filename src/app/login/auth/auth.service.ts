@@ -11,7 +11,8 @@ import {environment} from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private url = environment.apiUrl;
+  // private url = environment.apiUrl;
+  private url = 'http://rest-items.research.cloudonix.io';
   private tokenSubject = new BehaviorSubject<TokenType | null>(this.getToken());
 
   constructor(private http: HttpClient, private router: Router, private sharedService:SharedService) {

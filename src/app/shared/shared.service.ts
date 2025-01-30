@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {effect, Injectable, signal} from '@angular/core';
 import {Product} from './types';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -8,8 +8,10 @@ import {environment} from '../../environments/environment';
   providedIn: 'root'
 })
 export class SharedService {
+  // private url = environment.apiUrl;
+  private url = 'http://rest-items.research.cloudonix.io';
 
-  private url = environment.apiUrl;
+  isLoading = signal<boolean>(false);
 
   constructor(private http: HttpClient) {
   }
